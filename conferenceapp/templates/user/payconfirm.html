@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Admin Page - Disrupts Conference</title>
+  <link rel="stylesheet" href="/static/backend/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/backend/assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="text-center text-dark mt-5">Donation form</h2>
+        
+        <div class="card my-5">
+
+          <form class="card-body cardbody-color p-lg-5" id="paymentForm" method="post">
+
+            <div class="text-center">
+              <img src="/static/backend/images/logo.jpg" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                width="200px" alt="profile">
+            </div>
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
+            <div class="mb-3">
+              <p id=""><span>Fullname: </span>{{ data.fullname }}</p> 
+            </div>
+            <div class="mb-3">
+                <p id="amount"><span>Amount: </span>{{ data.amount }}</p>
+              </div>
+            <div class="mb-3">
+                
+              <p id="email-address"><span>Email: </span> {{ data.email }}</p> 
+            </div>
+
+            <div class="mb-3">
+                <p><span>Reference No: </span>{{ data.ref }}</p> 
+              </div>
+            <div class="text-center"><button type="submit" onclick="payWithPaystack()" class="btn btn-color px-5 mb-5 w-100">Donate</button></div>
+    
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+
+  <script type="text/javascript" language="javascript">
+        const paymentForm = document.getElementById('paymentForm');
+        paymentForm.addEventListener("submit", payWithPaystack, false);
+        function payWithPaystack(e) {
+        e.preventDefault();
+        let handler = PaystackPop.setup({
+            key: 'pk_test_cfde575dfdb681fc4d765fa0d07175dd12724473', // Replace with your public key
+            email: '{{ data.email }}',
+            amount: '{{ data.amount }}' * 100,
+            ref: '{{ data.ref }}', // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+            // label: "Optional string that replaces customer email"
+            onClose: function(){
+            alert('Window closed.');
+            },
+            callback: function(response){
+            let message = 'Payment complete! Reference: ' + response.reference;
+            //initiate ajax call
+            alert(message);
+            }
+        });
+        handler.openIframe();
+        }
+  </script>
+</body>
+</html>

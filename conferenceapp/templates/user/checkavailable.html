@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Admin Page - Distrupts</title>
+    <!-- Font Awesome icons (free version)-->
+    <script src="/static/js/all.js"></script>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/static/css/styles.css" rel="stylesheet" />
+ 
+  </head>
+  <body>
+    <div class="row p-3">
+        <div class="col-lg-4 mb-3">
+            <input type="text" class="form-control" placeholder="" id="username"/>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <button type="button" class="btn btn-primary" id="check">Check username</button>
+        </div>
+
+        <div class="col-lg-8 mb-3">
+            <input type="text" class="form-control" id="username" placeholder=""/>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col-lg-3 mb-3">
+            <button type="button" class="btn btn-success">Submit Form</button>
+        </div>
+    </div>
+
+
+    <!-- Jquery -->
+    <script src="/static/js/jquery.min.js"></script>
+    <!-- Bootstrap core JS-->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/static/js/scripts.js"></script>
+
+    <script type="text/javascript"  language="javascript">
+
+    
+        $(document).ready(function(){
+            $("#check").click(function(){
+                var username = $('#username').val();
+                data2send = "us"+username
+                alert(data2send)
+                $.ajax({
+                    url: "/check/result",
+                    type:"get",
+                    data:data2send,
+                    success:function(msg){
+                        if (msg =="Username is taken"){
+                            alert(msg)
+                            $('#btnsubmit').attr('disabled','disabled')
+                        }else{
+                            alert(msg)
+                            $('#btnsubmit').removeAttr('disabled')
+                        }
+                       
+                    },
+                    error:function(err){}
+                })
+            })
+        })
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,138 @@
+{% extends 'user/layout.html' %}
+{% block pagecontent %}
+
+<section class="page-section bg-light" style="min-height:90vh">
+    <div class="container-fluid">
+ <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="userhome.html">Dashboard</a>
+                     
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="profile.html">My Profile</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/user/discussion">Join Discussion</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="breakout.html">Break Out Session</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Log Out</a>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4">Break Out Sessions</h1>
+                    <p>Edit your profile by completing the form below.Edit your profile by completing the form below.Edit your profile by completing the form below.Edit your profile by completing the form below.</p>
+
+ 
+                     
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                            <div class="col-5 offset-5">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Post Title <p></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p>{{ postdeets.p_title }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        Description
+                                    </div>
+                                    <div class="col-6">
+                                        <p>{{ postdeets.p_desc }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        Post by
+                                    </div>
+                                    <div class="col-6">
+                                         <p>{{ postdeets.duser.user_fname }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        Date
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="hidden" id="postid" name="postid" value="{{ postdeets.p_id }}"/>
+                                </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                           <p>Comments</p>
+                           <div class="row">
+                               <div class="col-6">
+                                   <textarea class="form-control"></textarea>
+                               </div>
+                               <div class="col-3">
+                                   <button class="btn btn-outline-primary btn-lg">Post</button>
+                               </div>
+                           </div>
+                           <div class="row">
+                            <div class="col-6">
+                                <textarea class="form-control"></textarea>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-outline-primary btn-lg">Post</button>
+                            </div>
+                        </div>  
+
+                                
+                           
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>    
+    </div>
+</section>
+       <!-- Jquery -->
+       <script src="/static/js/jquery.min.js"></script>
+       <!-- Bootstrap core JS-->
+       <script src="/static/js/bootstrap.bundle.min.js"></script>
+       <!-- Core theme JS-->
+       <script src="/static/js/scripts.js"></script>
+       
+
+       <script type="text/javascript"  language="javascript">
+
+   
+           $(document).ready(function(){
+       
+               $('#btn').click(function(){
+                   var = $('#').val()
+                   var  = $('#').val()
+                   var  = $('#').val()
+                   var csrf = "{{ csrf_token() }}"
+
+                   //method 1- construct data as json
+                   var data = {"fullname":fullname,"email":email,"message":message, "csrf_token":csrf}
+
+                   //make ajax request
+                   //$.ajax({key:value, key:value, key:value})
+                   $.ajax({
+                       url: "/post/comment",
+                       type:"post",
+                       data:data,
+                       dataType:"json",
+                       success:function(msg){
+                           $('#mycomments').prepend("<div class='row'><div class='col'>"+msg+"</div></div>")
+                       },
+                       error:function(err){
+                           console.log(err)
+                       }
+                   })
+               
+               })
+           })
+       
+           
+       </script>
+  
+<!-- Footer-->
+{% endblock %}
